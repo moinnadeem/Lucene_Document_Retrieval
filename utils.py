@@ -84,13 +84,13 @@ def query_lucene(c):
     # java -cp CLASSPATH org.apache.lucene.demo.SearchFiles -query "Loki is the dad of Hel."
     
     # replace the following classpath with your local Lucene instance
-    classpath = "/home/moinnadeem/Documents/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
-    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
-    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
+    classpath = "/usr/users/mnadeem/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
+    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
+    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
     
     c = c.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
     # replace the following with the location of your index
-    indexDir = "/home/moinnadeem/Documents/UROP/wiki-pages/index"
+    indexDir = "/usr/users/mnadeem/UROP/wiki-pages/index"
     
     
     return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-query", c]).decode("utf-8").split("\n")

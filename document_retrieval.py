@@ -40,7 +40,7 @@ def score_claim(claim):
     return mAP
 
 print("Beginning to score documents...")
-result = Parallel(n_jobs=cpu_count(), verbose=1)(delayed(score_claim)(c) for c in claim_to_article.keys())
+result = Parallel(n_jobs=16, verbose=1, prefer="threads")(delayed(score_claim)(c) for c in claim_to_article.keys())
 
 print("Saving results to disk...")
 with open("result.pkl", "wb") as f:
