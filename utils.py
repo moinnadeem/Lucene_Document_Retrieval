@@ -9,6 +9,12 @@ from multiprocessing import cpu_count
 
 FEVER_LABELS = {'SUPPORTS': 0, 'REFUTES': 1}
 
+def retrieve_documents(claim, k):
+    cleaned_claim = claim.replace("/", " ")
+    choices = query_lucene(cleaned_claim, str(k))
+    retrieved = process_lucene_output(choices)
+    return retrieved
+
 def extract_fever_jsonl_data(path):
     '''
     HELPER FUNCTION
@@ -79,24 +85,24 @@ def char_ngrams(s, n):
     s = "#" + s + "#"
     return [s[i:i+n] for i in range(len(s) - 2)]
 
-def query_lucene(c):
+def query_lucene(c, k):
     # standard query: 
     # java -cp CLASSPATH org.apache.lucene.demo.SearchFiles -query "Loki is the dad of Hel."
     
     # replace the following classpath with your local Lucene instance
-    classpath = "/usr/users/mnadeem/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
-    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
-    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
+    classpath = "/home/moinnadeem/Documents/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
+    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
+    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
     
     c = c.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
     # replace the following with the location of your index
-    indexDir = "/usr/users/mnadeem/UROP/wiki-pages/index"
+    indexDir = "/home/moinnadeem/Documents/UROP/wiki-pages/index"
     
     
-    return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-query", c]).decode("utf-8").split("\n")
+    return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-paging", k, "-query", c]).decode("utf-8").split("\n")
 
 def process_lucene_output(output):
-    assert len(output)==13
+    assert len(output)>=13
     
     filenames = [o.split("/")[-1].split(".txt")[0] for o in output[2:-1]]
     return list(map(preprocess_article_name, filenames))
