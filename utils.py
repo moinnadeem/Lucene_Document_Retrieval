@@ -102,6 +102,8 @@ def query_lucene(c, k):
     return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-paging", k, "-query", c]).decode("utf-8").split("\n")
 
 def process_lucene_output(output):
+    if output==['']:
+        return []
     assert len(output)>=13
     
     filenames = [o.split("/")[-1].split(".txt")[0] for o in output[2:-1]]
