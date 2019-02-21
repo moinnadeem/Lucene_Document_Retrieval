@@ -1,0 +1,27 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='Classic', small=False)
+Beginning to score documents using Classic...
+Using class org.apache.lucene.search.similarities.ClassicSimilarity similarity!
+Mean Average Precision:
+recall @ 1: 0.09144446991112129
+precision @ 1: 0.00023892288460002165
+recall @ 2: 0.14377212417551632
+precision @ 2: 0.0003758982495299022
+recall @ 5: 0.23104642575190362
+precision @ 5: 0.0006023489262775997
+recall @ 10: 0.31646165991799735
+precision @ 10: 0.0008276562205086593
+recall @ 20: 0.40704481043697177
+precision @ 20: 0.0010692414390778815
+recall @ 50: 0.5261766514230415
+precision @ 50: 0.0013881072806770174
+recall @ 100: 0.6165457909040306
+precision @ 100: 0.0016342021239442053
+recall @ 200: 0.7004543982769974
+precision @ 200: 0.0018619322920237005
+recall @ 300: 0.7455229582091834
+precision @ 300: 0.0019887793492180564
+recall @ 400: 0.7753529863316706
+precision @ 400: 0.0020720640014787817
+Avg recall: 0.26149934150449844

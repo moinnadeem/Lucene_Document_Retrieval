@@ -1,0 +1,27 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='IBSimilarity_LL_TTF_H3', small=False)
+Beginning to score documents using IBSimilarity_LL_TTF_H3...
+Using class org.apache.lucene.search.similarities.IBSimilarity similarity!
+Mean Average Precision:
+recall @ 1: 0.4186048626800403
+precision @ 1: 0.0010903419456743005
+recall @ 2: 0.545770894498834
+precision @ 2: 0.0014281144453097507
+recall @ 5: 0.6801962025546714
+precision @ 5: 0.0017967709259041676
+recall @ 10: 0.7546291142325979
+precision @ 10: 0.002003874932124409
+recall @ 20: 0.8112712783180351
+precision @ 20: 0.00216279896551808
+recall @ 50: 0.8641148146935449
+precision @ 50: 0.0023142816622996197
+recall @ 100: 0.8945397625778098
+precision @ 100: 0.0024032982316400794
+recall @ 200: 0.918782947513179
+precision @ 200: 0.0024766528068161926
+recall @ 300: 0.9325549625457946
+precision @ 300: 0.0025179102594093993
+recall @ 400: 0.939628332041809
+precision @ 400: 0.0025393041827539357
+Avg recall: 0.6661753644463364

@@ -1,0 +1,31 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='LMJeline_0.10', small=False)
+Beginning to score documents using LMJeline_0.10...
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='LMJeline_0.10', small=False)
+Beginning to score documents using LMJeline_0.10...
+Using class org.apache.lucene.search.similarities.LMJelinekMercerSimilarity similarity!
+Mean Average Precision:
+precision @ 1: 0.0009711063746718531
+recall @ 1: 0.372990224434185
+precision @ 2: 0.0012523204385531124
+recall @ 2: 0.4781530474516952
+precision @ 5: 0.0015797223459524592
+recall @ 5: 0.5985111089282531
+precision @ 10: 0.0017908657325621275
+recall @ 10: 0.6758339427145295
+precision @ 20: 0.0019815034377891373
+recall @ 20: 0.7443865987070204
+precision @ 50: 0.0021799735870503723
+recall @ 50: 0.8148618068971037
+precision @ 100: 0.0023060508729695044
+recall @ 100: 0.8595119857095563
+precision @ 200: 0.002400458132356661
+recall @ 200: 0.8918828605626681
+precision @ 300: 0.002445346508423916
+recall @ 300: 0.9069727761224438
+precision @ 400: 0.002475142999039254
+recall @ 400: 0.9175714613142989
+Avg recall: 0.597930468695997

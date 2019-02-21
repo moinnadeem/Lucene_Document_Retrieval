@@ -1,0 +1,31 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='BM25', small=False)
+Beginning to score documents using BM25...
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='BM25', small=False)
+Beginning to score documents using BM25...
+Using class org.apache.lucene.search.similarities.BM25Similarity similarity!
+Mean Average Precision:
+precision @ 1: 0.0007541959223007318
+recall @ 1: 0.28839992869330483
+precision @ 2: 0.0010140457612914187
+recall @ 2: 0.38659306797056053
+precision @ 5: 0.001380355942004471
+recall @ 5: 0.5235765037163158
+precision @ 10: 0.0016499087635067874
+recall @ 10: 0.6233944169768143
+precision @ 20: 0.0018623338809575336
+recall @ 20: 0.7009980208753989
+precision @ 50: 0.0021130089036993918
+recall @ 50: 0.791315863193012
+precision @ 100: 0.0022623968251061772
+recall @ 100: 0.8445979721249032
+precision @ 200: 0.002380850412549366
+recall @ 200: 0.8865441355700352
+precision @ 300: 0.0024339675960989814
+recall @ 300: 0.9047912823927035
+precision @ 400: 0.002467591278318369
+recall @ 400: 0.9162883955629774
+Avg recall: 0.5340922175654585

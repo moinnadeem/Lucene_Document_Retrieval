@@ -1,0 +1,31 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='LMDirichlet', small=False)
+Beginning to score documents using LMDirichlet...
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='LMDirichlet', small=False)
+Beginning to score documents using LMDirichlet...
+Using class org.apache.lucene.search.similarities.LMDirichletSimilarity similarity!
+Mean Average Precision:
+precision @ 1: 0.0010193838043957401
+recall @ 1: 0.38998986790070905
+precision @ 2: 0.0014018747595256978
+recall @ 2: 0.5328184516988093
+precision @ 5: 0.0018246460353135109
+recall @ 5: 0.688645500220105
+precision @ 10: 0.0020602272434008233
+recall @ 10: 0.7738500885876545
+precision @ 20: 0.0022187927472245013
+recall @ 20: 0.8304155797852795
+precision @ 50: 0.002374296981754
+recall @ 50: 0.8839760031142108
+precision @ 100: 0.002451472503751524
+recall @ 100: 0.9105259232579883
+precision @ 200: 0.002513746192619892
+recall @ 200: 0.9314870902138839
+precision @ 300: 0.002542019469593363
+recall @ 300: 0.9403502213781839
+precision @ 400: 0.0025613147855821665
+recall @ 400: 0.9463967380825048
+Avg recall: 0.6707252591234368

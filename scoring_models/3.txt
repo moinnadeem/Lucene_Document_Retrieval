@@ -1,0 +1,27 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='DFI_Indep', small=False)
+Beginning to score documents using DFI_Indep...
+Using class org.apache.lucene.search.similarities.DFISimilarity similarity!
+Mean Average Precision:
+precision @ 1: 0.0010669524775807732
+recall @ 1: 0.40927769228250543
+precision @ 2: 0.0014022131645622154
+recall @ 2: 0.5341033364984774
+precision @ 5: 0.0017699385940543723
+recall @ 5: 0.6697987041099578
+precision @ 10: 0.0019880903821808617
+recall @ 10: 0.7483815017335531
+precision @ 20: 0.002164828729537544
+recall @ 20: 0.8121502424791445
+precision @ 50: 0.00232988297510358
+recall @ 50: 0.868965761872019
+precision @ 100: 0.002420243727838353
+recall @ 100: 0.8999348780691894
+precision @ 200: 0.0024957031285464137
+recall @ 200: 0.9250668500267399
+precision @ 300: 0.0025295120568569517
+recall @ 300: 0.9363766012173071
+precision @ 400: 0.002550332022578422
+recall @ 400: 0.9433915792613935
+Avg recall: 0.6599020351512902

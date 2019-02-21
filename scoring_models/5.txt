@@ -1,0 +1,27 @@
+Num Distinct Claims 13332
+Num Data Points 14726
+Namespace(jar='DFR_BE_AfterB_Z', small=False)
+Beginning to score documents using DFR_BE_AfterB_Z...
+Using class org.apache.lucene.search.similarities.DFRSimilarity similarity!
+Mean Average Precision:
+precision @ 1: 0.001125016435016697
+recall @ 1: 0.431413236851009
+precision @ 2: 0.0015000914842791197
+recall @ 2: 0.5711432536953968
+precision @ 5: 0.0018823372350847928
+recall @ 5: 0.7116928427723752
+precision @ 10: 0.0020880716151203873
+recall @ 10: 0.7859594024789992
+precision @ 20: 0.002237267574245881
+recall @ 20: 0.8388068498084541
+precision @ 50: 0.0023809235857894686
+recall @ 50: 0.8875868140823446
+precision @ 100: 0.0024642120676256606
+recall @ 100: 0.9155617767009011
+precision @ 200: 0.0025198031448991818
+recall @ 200: 0.9333404276218853
+precision @ 300: 0.0025454005060153192
+recall @ 300: 0.9418590310293267
+precision @ 400: 0.0025656498649922555
+recall @ 400: 0.9482397069149304
+Avg recall: 0.6919680829777095
