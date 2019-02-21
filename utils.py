@@ -1,5 +1,17 @@
 import json
 import unicodedata
+import joblib
+import string
+import pickle
+import nltk
+import numpy as np
+from scipy import sparse
+from sklearn.preprocessing import LabelEncoder
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from tqdm.autonotebook import tqdm 
+
+
+import unicodedata
 import string
 import numpy as np
 import subprocess
@@ -11,7 +23,8 @@ FEVER_LABELS = {'SUPPORTS': 0, 'REFUTES': 1}
 
 def retrieve_documents(claim, k):
     cleaned_claim = claim.replace("/", " ")
-    choices = query_lucene(cleaned_claim, str(k))
+    choices = query_customized_lucene(cleaned_claim, str(k))
+    print(choices)
     retrieved = process_lucene_output(choices)
     return retrieved
 
@@ -85,28 +98,45 @@ def char_ngrams(s, n):
     s = "#" + s + "#"
     return [s[i:i+n] for i in range(len(s) - 2)]
 
-def query_lucene(c, k):
+def query_standard_lucene(c, k):
     # standard query: 
     # java -cp CLASSPATH org.apache.lucene.demo.SearchFiles -query "Loki is the dad of Hel."
     
     # replace the following classpath with your local Lucene instance
-    classpath = "/home/moinnadeem/Documents/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
-    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
-    classpath += ":/home/moinnadeem/Documents/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
+    classpath = "/usr/users/mnadeem/UROP/lucene-7.4.0/demo/lucene-demo-7.4.0.jar"
+    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/core/lucene-core-7.4.0.jar"
+    classpath += ":/usr/users/mnadeem/UROP/lucene-7.4.0/queryparser/lucene-queryparser-7.4.0.jar"
     
     c = c.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
     # replace the following with the location of your index
-    indexDir = "/home/moinnadeem/Documents/UROP/wiki-pages/index"
+    indexDir = "/usr/users/mnadeem/UROP/wiki-pages/index"
     
     
-    return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-paging", k, "-query", c]).decode("utf-8").split("\n")
+    # return subprocess.check_output(["java", "-cp", classpath, "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-paging", k, "-query", c]).decode("utf-8").split("\n")
+    return subprocess.check_output(["java", "org.apache.lucene.demo.SearchFiles", "-index", indexDir, "-paging", k, "-query", c]).decode("utf-8").split("\n")
+
+def query_customized_lucene(c, k, jar_name="print_scores"):
+    # standard query: 
+    # java -jar /usr/users/mnadeem/UROP/lucene_java/out/artifacts/untitled1_jar/untitled1.jar -index /usr/users/mnadeem/UROP/lucene_java/out/artifacts/index 
+    
+    # replace the following classpath with your local Lucene instance
+    
+    c = c.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
+
+    # replace the following with the location of your index
+    prefix = "/home/moinnadeem/demo/backend/flask/FEVER_Document_Retrieval"
+
+    indexDir = "{}/wiki-pages/index".format(prefix)
+    jar_location = "{}/{}.jar".format(prefix, jar_name) 
+    
+    return subprocess.check_output(["java", "-jar", jar_location, "-index", indexDir, "-paging", str(k), "-query", c]).decode("utf-8").split("\n")
 
 def process_lucene_output(output):
     if output==['']:
         return []
     assert len(output)>=13
     
-    filenames = [o.split("/")[-1].split(".txt")[0] for o in output[2:-1]]
+    filenames = [o.split("/")[-1].split(".txt")[0] for o in output[3:-1]]
     return list(map(preprocess_article_name, filenames))
 
 def calculate_precision(retrieved, relevant, k=None):
@@ -115,6 +145,11 @@ def calculate_precision(retrieved, relevant, k=None):
     return len(set(retrieved[:k]).intersection(set(relevant))) / len(set(retrieved))
 
 def calculate_recall(retrieved, relevant, k=None):
+    """
+        retrieved: a list of sorted documents that were retrieved
+        relevant: a list of sorted documents that are relevant
+        k: how many documents to consider, all by default.
+    """
     if k==None:
         k = len(retrieved)
     return len(set(retrieved[:k]).intersection(set(relevant))) / len(set(relevant))
@@ -135,6 +170,54 @@ def calculatemAP(mAP, k):
     return mAP_final
 
 def displaymAP(mAP):
-    for k, v in mAP.items():
+    for k in sorted(mAP.keys()):
+        v = mAP[k]
         for k_i, v_i in v.items():
             print("{} @ {}: {}".format(k_i, k, np.mean(v_i)))
+
+def parallel_process(array, function, n_jobs=12, use_kwargs=False, front_num=3):
+    """
+        A parallel version of the map function with a progress bar. 
+
+        Args:
+            array (array-like): An array to iterate over.
+            function (function): A python function to apply to the elements of array
+            n_jobs (int, default=16): The number of cores to use
+            use_kwargs (boolean, default=False): Whether to consider the elements of array as dictionaries of 
+                keyword arguments to function 
+            front_num (int, default=3): The number of iterations to run serially before kicking off the parallel job. 
+                Useful for catching bugs
+        Returns:
+            [function(array[0]), function(array[1]), ...]
+    """
+    #We run the first few iterations serially to catch bugs
+    if front_num > 0:
+        front = [function(**a) if use_kwargs else function(a) for a in array[:front_num]]
+    #If we set n_jobs to 1, just run a list comprehension. This is useful for benchmarking and debugging.
+    if n_jobs==1:
+        return front + [function(**a) if use_kwargs else function(a) for a in tqdm(array[front_num:])]
+    #Assemble the workers
+    with ProcessPoolExecutor(max_workers=n_jobs) as pool:
+        #Pass the elements of array into function
+        if use_kwargs:
+            futures = [pool.submit(function, **a) for a in array[front_num:]]
+        else:
+            futures = [pool.submit(function, a) for a in array[front_num:]]
+        kwargs = {
+            'total': len(futures),
+            'unit': 'it',
+            'unit_scale': True,
+            'leave': True
+        }
+        #Print out the progress as tasks complete
+        for f in tqdm(as_completed(futures), **kwargs):
+            pass
+    out = []
+    #Get the results from the futures. 
+    for i, future in tqdm(enumerate(futures)):
+        try:
+            out.append(future.result())
+        except Exception as e:
+            out.append(e)
+    return front + out
+
